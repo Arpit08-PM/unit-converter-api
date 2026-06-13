@@ -15,21 +15,17 @@ A RESTful ASP.NET Core Web API for converting numerical values between units of 
 **Prerequisites:** [.NET 9 SDK](https://dotnet.microsoft.com/download)
 
 ```bash
-git clone <your-repo-url>
-cd UnitConverter
-
+git clone https://github.com/Arpit08-PM/unit-converter-api.git
+cd unit-converter-api
 dotnet run --project src/UnitConverter.Api
 ```
 
-The API will start at `http://localhost:5000`. Open that URL in your browser to access the Swagger UI.
+Open `http://localhost:5000` in your browser to access the Swagger UI.
 
 ## API Endpoints
 
 ### `POST /api/convert`
 
-Convert a value from one unit to another.
-
-**Request body:**
 ```json
 {
   "value": 100,
@@ -38,29 +34,10 @@ Convert a value from one unit to another.
 }
 ```
 
-**Response:**
-```json
-{
-  "inputValue": 100,
-  "fromUnit": "km",
-  "fromUnitName": "Kilometre",
-  "outputValue": 62.137119223734,
-  "toUnit": "mi",
-  "toUnitName": "Mile",
-  "category": "Length"
-}
-```
-
-Returns `400 Bad Request` if a unit symbol is unknown or the two units belong to different categories.
-
----
-
 ### `GET /api/categories`
 
-Returns all supported categories and their unit symbols.
+Returns all supported categories and their units.
 
 ## Design Decisions
 
-**Affine conversion model** — each unit is stored as a multiplier and offset relative to a base unit (`base = (value + offset) × multiplier`). This single formula covers both linear units (length, weight) and offset-based units (temperature) without any special-casing. Adding new units in the future only requires adding a row of data.
-
-**Units hardcoded in the service** — as required. The `IConversionService` interface keeps the controller decoupled from the data source, so if units ever need to come from a database, only the service implementation changes.
+Units are hardcoded using an affine conversion model — each unit stores a multiplier and offset relative to a base unit. This single formula handles both linear units (length, weight) and offset-based units (temperature) without special-casing.
