@@ -16,7 +16,6 @@ public sealed class ConversionsController : ControllerBase
         _conversionService = conversionService;
     }
 
-    /// <summary>Convert a value from one unit to another.</summary>
     [HttpPost("convert")]
     public IActionResult Convert([FromBody] ConversionRequest request)
     {
@@ -31,7 +30,6 @@ public sealed class ConversionsController : ControllerBase
         }
     }
 
-    /// <summary>List all supported categories and their units.</summary>
     [HttpGet("categories")]
     public IActionResult GetCategories()
     {
